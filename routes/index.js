@@ -128,12 +128,14 @@ router.get('/', async(req, res, next) => {
   let count = 12; console.log(req.query);
   let theme;
 
-  if (req.query?.count) {
-    count = req.query.count;
-  }
+  if (req.query) {
+    if (req.query.count) {
+      count = req.query.count;
+    }
 
-  if (req.query?.theme) {
-    theme = req.query.theme;
+    if (req.query.theme) {
+      theme = req.query.theme;
+    }
   }
 
   try {
