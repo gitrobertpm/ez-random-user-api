@@ -1,14 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const data = require('../data.json');
+const baseUrl = require('../config.js');
+const fs = require('fs');
+
+
+// Random number
+const ran = (num = 10) => Math.floor(Math.random() * num);
 
 
 // Grab random array item at random index
-const rando = (arr) => arr[Math.floor(Math.random() * arr.length)];
+const rando = arr => arr[Math.floor(Math.random() * arr.length)];
 
 
 // Get date within range for any month
-const getDay = (month) => {
+const getDay = month => {
 
   // No more than 28 days for February
   if (month === 02) {
@@ -41,20 +47,33 @@ const getUserName = () => {
 
   // Add two numbers to end of userName
   if (dieRoll > 2 && dieRoll < 9) {
-    userName += rando(data.numbers)
+    userName += rando(data.numbers);
   }
 
   // Add four numbers to end of userName
   if (dieRoll > 8) {
-    userName += rando(data.years)
+    userName += rando(data.years);
   }
 
-  return userName
+  return userName;
 }
 
 
+// Image folders
+const imgFolders = ['cools', 'cuties', 'murray', 'starwars', 'supers'];
+
+
+// Helper function for getting the number of files in a folder
+const fileCount = dir => fs.readdirSync(`./public/images/${dir}`).length;
+
+
 // Helper function for creating a user object
-const generateUser = () => {
+const generateUser = (dir = rando(imgFolders)) => {
+
+  // Handle non existent image 
+  if (dir && !imgFolders.includes(dir)) {
+    dir = rando(imgFolders);
+  }
 
   // Build multi-step values
   const userName = getUserName();
@@ -62,7 +81,7 @@ const generateUser = () => {
   const month = rando(data.numbers.slice(0, 12));
   const day = getDay(month);
   const date = `${rando(data.years)}-${month}-${day}`
-  const profilePic = rando(data.images);
+  const profilePic = `${baseUrl}/images/${dir}/${ran(fileCount(dir))}.jpg`;
 
   // API User Schema
   return {
@@ -71,8 +90,8 @@ const generateUser = () => {
 			"last": rando(data.names.lasts)
 		},
     "email": email,
-    "cell": "(503) 555-1234",
-    "phone": "(503) 555-4321",
+    "cell": `(503) 555-${ran(10)}${ran(10)}${ran(10)}${ran(10)}`,
+    "phone": `(503) 555-${ran(10)}${ran(10)}${ran(10)}${ran(10)}`,
     "location": {
       "street": {
         "number": `${rando(data.addresses.streets.numbers)}`,
@@ -93,19 +112,32 @@ const generateUser = () => {
 	}
 }
 
+
 // Create array of users
-const getArrOfUsers = () => {
+const getArrOfUsers = (count = 12, theme) => {
   const users = [];
-  for (let i = 0, j = 12; i < j; i++) {
-    users.push(generateUser());
+  for (let i = 0, j = count; i < j; i++) {
+    users.push(generateUser(theme));
   }
   return users;
 }
 
+
 /* GET - home '/api' route - return JSON for twelve random users */
 router.get('/', async(req, res, next) => {
+  let count = 12; console.log(req.query);
+  let theme;
+
+  if (req.query?.count) {
+    count = req.query.count;
+  }
+
+  if (req.query?.theme) {
+    theme = req.query.theme;
+  }
+
   try {
-    const arrOfUsers = { results: getArrOfUsers() };
+    const arrOfUsers = { results: getArrOfUsers(count, theme) };
     res.header("Content-Type",'application/json');
     res.send(JSON.stringify(arrOfUsers, null, 4));
   } catch (err) {

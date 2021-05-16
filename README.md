@@ -13,7 +13,7 @@ Visit the above URL in your browser to see a raw, prettified display of the JSON
 
 ## To consume
 
-Use the following URL for your `fetch` request - https://fsjs-public-api-backup.herokuapp.com/api.
+Use the following URL for your `fetch` request - https://ez-random-user-api.herokuapp.com/api.
 
 Property values are randomly retrieved from JSON collection of possible values.
 

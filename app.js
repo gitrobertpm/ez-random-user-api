@@ -21,7 +21,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api/images', express.static(path.join(__dirname, 'public/images')));
 
 /* Root route redirect to the '/api/' route */
 app.get('/', (req, res) => {
@@ -33,7 +33,7 @@ app.use('/api', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  next(createError(404), 'Not Found');
 });
 
 // error handler
@@ -42,9 +42,11 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
+  err.status = err.status || 500;
+  err.message = err.message || 'Oops, it looks like the server encountered an error'
+
   // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  res.status(err.status).render('error', err);
 });
 
 module.exports = app;
