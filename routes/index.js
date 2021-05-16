@@ -138,7 +138,7 @@ router.get('/', async(req, res, next) => {
 
   try {
     const arrOfUsers = { results: getArrOfUsers(count, theme) };
-    res.header({'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'});
+    res.header("Content-Type",'application/json');
     res.send(JSON.stringify(arrOfUsers, null, 4));
   } catch (err) {
     next(err);
