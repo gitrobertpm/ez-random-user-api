@@ -17,7 +17,7 @@ Use the following URL for your `fetch` request - https://ez-random-user-api.hero
 
 Property values are randomly retrieved from JSON collection of possible values.
 
-Response result is array of 12 random user objects with the following schema:
+Default response result is array of 12 random user objects with the following schema:
 
 ```
   {
