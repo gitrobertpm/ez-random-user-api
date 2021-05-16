@@ -5,11 +5,11 @@ An easy to use public api the generates random user data for testing and develop
 
 Initially created to serve as a backup for when the [Random User](https://randomuser.me/) API is down.
 
-## Examples
+## Example
 
-To view an example of a client consuming this API, visit - https://gitrobertpm.github.io/random-user-client/.
+To view an example client consuming this API - https://gitrobertpm.github.io/random-user-client/.
 
-Visit the above URL in your browser to see a raw, prettified display of the JSON results.
+To view the raw, prettified JSON results - https://ez-random-user-api.herokuapp.com/api.
 
 ## To consume
 
@@ -41,12 +41,22 @@ Default response result is array of 12 random user objects with the following sc
       "date": date
     },
     "picture": {
-      "large": profilePic,
-      "medium": profilePic,
-      "thumbnail": profilePic
+      "large": profilePic URL,
+      "medium": profilePic URL,
+      "thumbnail": profilePic URL
     }
   }
 ```
+
+## Options
+
+* **Count** - Number of results
+* **Theme** - Customize image results
+  * **Theme options** - murray, starwars, cuties, cools, supers
+
+**Example:** The following URL will retrieve 10 results with only Bill Murray images
+* https://ez-random-user-api.herokuapp.com/api/?count=10&theme=murray`
+     
 
 ## To work with locally
 
