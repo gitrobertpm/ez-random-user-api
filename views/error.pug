@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  h1 Error Message: #{message}
-  h2 Error Status Code: #{error.status}
+  h1 Error Message: #{err.message}
+  h2 Error Status Code: #{err.status}
   h3 ↓ Stack trace ↓
-  pre #{error.stack}
+  pre #{err.stack}
