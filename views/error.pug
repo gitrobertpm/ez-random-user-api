@@ -3,5 +3,7 @@ extends layout
 block content
   h1 Error Message: #{message}
   h2 Error Status Code: #{status}
-  h3 ↓ Stack trace ↓
-  pre #{stack}
+  
+  if stack
+    h3 ↓ Stack trace ↓
+    pre #{stack}
